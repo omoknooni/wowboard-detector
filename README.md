@@ -91,7 +91,8 @@ python generate_tfrecord.py --csv_input=images\train_labels.csv --image_dir=imag
 # 주요 수정 구간
 num_classes: [label map에서 작성한 인식할 객체의 종류 갯수]
 ...
-batch_size: [연산 한 번에 들어가는 데이터의 크기, 적당히 4정도, 너무 크면 OOM발생]
+batch_size: [연산 한 번에 들어가는 데이터의 크기, 적당히 1정도, 
+메모리 용량이나 GPU 메모리에 여유가 있는 경우 4까지도 괜찮음, 너무 크면 OOM발생]
 ...
 fine_tune_checkpoint: [학습을 시작할 checkpoint의 경로, pre-trained 모델의 checkpoint/ckpt-0]
 num_steps: [학습 step수, 보통 20000]
@@ -129,15 +130,20 @@ tensorboard --logdir=[학습 결과물들이 저장될 경로]
 ## 학습 이후 추론(Detecting)
 - 모델 추출 : 학습을 완료하면 checkpoint가 생성되는데, 이를 model로 export 해줘야 한다.  
 ```bash
-python exporter_main_v2.py --input_type=image_tensor --trained_checkpoint_dir=[학습 결과물들이 저장될 경로]--output_directory=[결과 model이 저장될 경로] --pipeline_config_path=[pipeline.config의 경로]
+python exporter_main_v2.py --input_type=image_tensor --trained_checkpoint_dir=[학습 결과물들이 저장될 경로] --output_directory=[결과 model이 저장될 경로] --pipeline_config_path=[pipeline.config의 경로]
 ```
 
 - 실제 추론(Detecting) : - 이렇게 추출된 model을 바탕으로 실제 추론(detecting)을 한다.  
-예시 코드는 colab_tutorials의 object_detection_tutorial.ipynb에 있음  
-Imports 부분 부터 쭉 실행  
+
+~~예시 코드는 colab_tutorials의 object_detection_tutorial.ipynb에 있음  
+Imports 부분 부터 쭉 실행~~  
   
-PATH_TO_LABELS를 라벨맵의 경로로 수정, PATH_TO_TEST_IMAGES_DIR를 실제 detection에 사용할 이미지 경로로 수정  
+~~PATH_TO_LABELS를 라벨맵의 경로로 수정, PATH_TO_TEST_IMAGES_DIR를 실제 detection에 사용할 이미지 경로로 수정~~  
   
-detection_model의 경로를 학습하고 모델로 export한 경로(exported_model) 수정  
+~~detection_model의 경로를 학습하고 모델로 export한 경로(exported_model) 수정~~  
   
-[[detection 코드 작성 예정]]
+```bash
+python detection.py --image_dir=[detection할 이미지폴더 경로] --output_dir=[detection 결과물이 저장될 폴더] --detection_model=[detection에 사용할 모델 경로] --label_map_dir=[라벨맵 파일의 경로]
+```
+detection 결과가 output_dir에 저장됨
+![detection](./mdImg/20230329_140515.png)

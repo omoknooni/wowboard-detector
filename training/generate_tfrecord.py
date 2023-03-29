@@ -16,19 +16,20 @@ import io
 import sys
 import pandas as pd
 import tensorflow as tf
-sys.path.append('/Users/harry.woods/models/research')
+# sys.path.append('/Users/harry.woods/models/research')
 
 from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
-flags = tf.app.flags
+flags = tf.compat.v1.flags
 flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 flags.DEFINE_string('image_dir', '', 'Path to images')
 FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
+# 현재 프로젝트에서는 수정할 필요 X
 def class_text_to_int(row_label):
     if row_label == 'stickynote':
         return 1
