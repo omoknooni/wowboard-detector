@@ -42,3 +42,8 @@ labelImg를 정상적으로 실행 후, 다음과 같은 화면, 'Open Dir'로 �
 이후 해당 이미지 내의 모든 학습할 부분 캡쳐 후 'Save'로 xml파일 저장
 ![img3](./mdImg/20230327_193118.png)
 ![img4](./mdImg/20230327_193209.png)
+
+## 데이터 업로드
+라벨링 완료된 데이터는 이미지 파일과 xml 파일 모두를 [팀 드라이브](https://kyonggiackr-my.sharepoint.com/:f:/g/personal/jamsilkes_kyonggi_ac_kr/En2IW2YjSPpIn_DMN7gLc1IBBM_A2cmBvMMqOg4x1qVQfQ?e=8m6rwQ) 내 알맞은 폴더에 업로드하여 학습에 사용될 수 있도록 한다. 
+
+드라이브 접속 시 학교 계정 로그인 필수.
