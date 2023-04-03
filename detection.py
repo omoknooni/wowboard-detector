@@ -111,7 +111,9 @@ def cropping_entities(img, output_dict, filename):
   object_list = []
   height, width, _ = img.shape
 
-  obj_index = output_dict['detection_scores'] > 0.5
+  # TODO : detection_score가 몇 점 이상일때 객체 cropping을 해올 것인가?
+  # 너무 낮은 경우 오탐이 많아지고, 너무 높은 경우 인식된 객체의 수가 줄어들 것이다
+  obj_index = output_dict['detection_scores'] > 0.9
   scores = output_dict['detection_scores'][obj_index]
   boxes = output_dict['detection_boxes'][obj_index]
   classes = output_dict['detection_classes'][obj_index]

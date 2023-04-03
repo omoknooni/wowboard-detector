@@ -149,5 +149,7 @@ Imports 부분 부터 쭉 실행~~
 ```bash
 python detection.py --image_dir=[detection할 이미지폴더 경로] --output_dir=[detection 결과물이 저장될 폴더] --detection_model=[detection에 사용할 모델 경로] --label_map_dir=[라벨맵 파일의 경로]
 ```
-detection 결과가 output_dir에 저장됨
+detection 결과가 output_dir에 저장됨  
++) 0403 : cropping_entities()의 추가로 각각의 인식된 객체들의 단일 이미지도 추가로 저장함  
 ![detection](./mdImg/20230329_140515.png)
+![detection2](./mdImg/20230403_231538.png)
