@@ -1,8 +1,12 @@
 # wowboard-detector
 
 ## 라벨링 데이터 수집
-라벨링한 데이터는 'stickynote_image'에 모두 저장한다. (이미지와 xml 모두)  
-라벨링 인원 각각 branch를 파서 이미지 업로드, PR, 확인 후 main에 merge
+~~라벨링한 데이터는 'stickynote_image'에 모두 저장한다. (이미지와 xml 모두)  
+라벨링 인원 각각 branch를 파서 이미지 업로드, PR, 확인 후 main에 merge~~
+
+라벨링한 데이터는 [팀 드라이브](https://kyonggiackr-my.sharepoint.com/:f:/g/personal/jamsilkes_kyonggi_ac_kr/En2IW2YjSPpIn_DMN7gLc1IBBM_A2cmBvMMqOg4x1qVQfQ?e=8m6rwQ) 내 알맞은 위치에 이미지 파일과 xml 파일 모두를 업로드.
+
+드라이브 접속 시 학교 계정 로그인 필수.
 ## 개발환경
 - Anaconda 22.9.0(Python 3.9.16)
 - Tensorflow 2.10
