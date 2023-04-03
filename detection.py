@@ -10,6 +10,7 @@ import sys
 import tarfile
 import tensorflow as tf
 import zipfile
+import copy
 
 from collections import defaultdict
 from io import StringIO
@@ -43,6 +44,7 @@ def show_inference(model, image_path):
   # the array based representation of the image will be used later in order to prepare the
   # result image with boxes and labels on it.
   image_np = np.array(Image.open(image_path))
+  temp_image = image_np.copy()
   filename = image_path.name
   
   # Actual detection.
@@ -61,6 +63,8 @@ def show_inference(model, image_path):
 
   # display(Image.fromarray(image_np))
   result_img = Image.fromarray(image_np)
+
+  cropping_entities(temp_image, output_dict, filename)
 
   try:
     result_img.save(os.path.join(FLAGS.output_dir,filename))
@@ -101,6 +105,33 @@ def run_inference_for_single_image(model, image):
     output_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
     
   return output_dict
+
+# 인식된 부분만을 cropping
+def cropping_entities(img, output_dict, filename):
+  object_list = []
+  height, width, _ = img.shape
+
+  obj_index = output_dict['detection_scores'] > 0.5
+  scores = output_dict['detection_scores'][obj_index]
+  boxes = output_dict['detection_boxes'][obj_index]
+  classes = output_dict['detection_classes'][obj_index]
+
+  for i in range(len(boxes)):
+    coord = [boxes[i][0],boxes[i][1],boxes[i][2],boxes[i][3]]
+    object_list.append(coord)
+    # print(f'>> {i} : ({coord})')
+
+  object_list.sort(key=lambda x:x[1])
+  # print(f'Total : {object_list}')
+
+  for idx, obj in enumerate(object_list):
+    obj_img = img[int(obj[0] * height):int(obj[2] * height), int(obj[1] * width):int(obj[3] * width)].copy()
+    obj_save = Image.fromarray(obj_img)
+
+    name, ext = os.path.splitext(filename)
+    path = os.path.join(FLAGS.output_dir,name+f'_{idx+1}'+ext)
+    obj_save.save(path)
+    print(f'>>> Detected object #{idx+1} has been saved as {path}')
 
 print(f'[*] {len(IMAGE_PATH)} files to Detection')
 
