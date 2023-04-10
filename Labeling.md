@@ -36,7 +36,13 @@ labelImg를 정상적으로 실행 후, 다음과 같은 화면, 'Open Dir'로 �
 'Create RectBox' 클릭 혹은 단축키 'w'로 이미지 캡쳐 모드  
 
 라벨링 모드는 PascalVOC로 설정한다. (기본값이 PascalVOC임)  
-학습할 부분을 캡쳐 후, 다음 팝업창에서 'stickynote' 입력
+학습할 부분을 캡쳐 후, 다음 팝업창에서 'stickynote' 입력  
+
+> 라벨링 시 라벨 이름 고정!
+> 1. stickynote : 포스트잇 객체
+> 2. wowboard-front : 와우보드 앞면 객체
+> 3. wowboard-back : 와우보드 뒷면 객체  
+
 ![img2](./mdImg/20230327_192304.png)
 
 이후 해당 이미지 내의 모든 학습할 부분 캡쳐 후 'Save'로 xml파일 저장

@@ -1,0 +1,13 @@
+[Unit]
+Description=Wowboard-detector detection API
+After=syslog.target network.target
+
+[Service]
+WorkingDirectory=/<work>/<dir>/<path>/wowboard-detector
+ExecStart=app.py
+Restart=always
+User=root
+
+
+[Install]
+WantedBy=multi-user.target
