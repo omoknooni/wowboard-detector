@@ -23,6 +23,10 @@ FLAGS = flags.FLAGS
 def class_text_to_int(row_label):
     if row_label == 'stickynote':
         return 1
+    elif row_label == 'wowboard-front':
+        return 2
+    elif row_label == 'wowboard-back':
+        return 3
     else:
         return 0
 
