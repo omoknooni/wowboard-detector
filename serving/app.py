@@ -103,7 +103,7 @@ def cropping_entities(img, output_dict, filename):
 
   # TODO : detection_score가 몇 점 이상일때 객체 cropping을 해올 것인가?
   # 너무 낮은 경우 오탐이 많아지고, 너무 높은 경우 인식된 객체의 수가 줄어들 것이다
-  obj_index = output_dict['detection_scores'] > 0.9
+  obj_index = output_dict['detection_scores'] > 0.65
   scores = output_dict['detection_scores'][obj_index]
   boxes = output_dict['detection_boxes'][obj_index]
   classes = output_dict['detection_classes'][obj_index]
@@ -124,6 +124,10 @@ def cropping_entities(img, output_dict, filename):
     path = os.path.join(OUTPUT_PATH,name+f'_{idx+1}'+ext)
     obj_save.save(path)
     print(f'>>> Detected object #{idx+1} has been saved as {path}')
+
+@app.route('/')
+def home():
+   return Response({'status': 'healthy'}, status=200)
 
 
 @app.route('/detect', method=['POST'])
