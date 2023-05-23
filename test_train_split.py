@@ -13,7 +13,7 @@ ext_list = [os.path.splitext(filename)[1] for filename in file_list]
 
 name_set = set(name_list)  # seperate filename
 
-test_count = int(len(name_set) * 0.8)  # test : train = 8 : 2 -> editable
+test_count = int(len(name_set) * 0.2)  # test : train = 8 : 2 -> editable
 
 name_list_shuffled = random.sample(name_set, len(name_set))  # randomize file list
 
