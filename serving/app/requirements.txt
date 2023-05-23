@@ -1,0 +1,5 @@
+flask
+pillow
+google-cloud-storage
+requests
+numpy

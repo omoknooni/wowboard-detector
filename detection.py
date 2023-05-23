@@ -38,13 +38,14 @@ PATH_TO_IMAGES_DIR = pathlib.Path(FLAGS.image_dir)
 PATH_TO_LABELS = FLAGS.label_map_dir
 category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 # detection할 이미지는 jpg로 고정
-IMAGE_PATH = sorted(list(PATH_TO_IMAGES_DIR.glob('*.jpg')))
+IMAGE_PATH = sorted(list(PATH_TO_IMAGES_DIR.glob('*.png'))+list(PATH_TO_IMAGES_DIR.glob('*.jpg')))
 
 def show_inference(model, image_path):
   # the array based representation of the image will be used later in order to prepare the
   # result image with boxes and labels on it.
   image_np = np.array(Image.open(image_path))
   temp_image = image_np.copy()
+  print(f'[1] temp_image : {temp_image.shape}')
   filename = image_path.name
   
   # Actual detection.
@@ -74,10 +75,13 @@ def show_inference(model, image_path):
 
 def run_inference_for_single_image(model, image):
   image = np.asarray(image)
+  print(f'[2] np.asarray : {image[:10]}')
   # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
   input_tensor = tf.convert_to_tensor(image)
+  print(f'[3] tf.convert_to_tensor : {input_tensor.shape}')
   # The model expects a batch of images, so add an axis with `tf.newaxis`.
   input_tensor = input_tensor[tf.newaxis,...]
+  print(f'[4] tf.newaxis : {input_tensor.shape}')
 
   # Run inference
   model_fn = model.signatures['serving_default']
