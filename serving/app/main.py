@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, Response
 from werkzeug.utils import secure_filename
 from google.cloud import storage
-from PIL import Image
+from PIL import Image, ImageOps
 
 import os
 import io
@@ -66,6 +66,7 @@ def upload():
             with open(TEMP_FILENAME, 'rb') as f:
                 img_data = f.read()
             image = Image.open(io.BytesIO(img_data))
+            image = ImageOps.exif_transpose(image)
             image = prepare_image(image, target=(1024,1024)) 
             height, width, _ = image.shape
             origin_image = image.copy()

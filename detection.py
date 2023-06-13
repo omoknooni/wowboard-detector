@@ -15,7 +15,7 @@ import copy
 from collections import defaultdict
 from io import StringIO
 from matplotlib import pyplot as plt
-from PIL import Image
+from PIL import Image, ImageOps
 from IPython.display import display
 
 from object_detection.utils import ops as utils_ops
@@ -43,7 +43,9 @@ IMAGE_PATH = sorted(list(PATH_TO_IMAGES_DIR.glob('*.png'))+list(PATH_TO_IMAGES_D
 def show_inference(model, image_path):
   # the array based representation of the image will be used later in order to prepare the
   # result image with boxes and labels on it.
-  image_np = np.array(Image.open(image_path))
+  image = Image.open(image_path)
+  image = ImageOps.exif_transpose(image)
+  image_np = np.array(image)
   temp_image = image_np.copy()
   # print(f'[1] temp_image : {temp_image.shape}')
   filename = image_path.name
@@ -113,6 +115,7 @@ def run_inference_for_single_image(model, image):
 # 인식된 부분만을 cropping
 def cropping_entities(img, output_dict, filename):
   object_list = []
+  coord = []
   height, width, _ = img.shape
 
   # TODO : detection_score가 몇 점 이상일때 객체 cropping을 해올 것인가?
@@ -123,8 +126,7 @@ def cropping_entities(img, output_dict, filename):
   classes = output_dict['detection_classes'][obj_index]
 
   for i in range(len(boxes)):
-    coord = [boxes[i][0],boxes[i][1],boxes[i][2],boxes[i][3]]
-    object_list.append(coord)
+    object_list.append([boxes[i][0],boxes[i][1],boxes[i][2],boxes[i][3]])
     # print(f'>> {i} : ({coord})')
 
   object_list.sort(key=lambda x:x[1])
@@ -134,10 +136,20 @@ def cropping_entities(img, output_dict, filename):
     obj_img = img[int(obj[0] * height):int(obj[2] * height), int(obj[1] * width):int(obj[3] * width)].copy()
     obj_save = Image.fromarray(obj_img)
 
+    xy_position = [int(obj[0] * height),int(obj[2] * height), int(obj[1] * width),int(obj[3] * width)]
+    center_position = tuple([int((xy_position[0]+xy_position[1]) / 2), int((xy_position[2]+xy_position[3]) / 2)])
+    print(f'position : {xy_position} || middle position : {center_position}')
+    coord.append(center_position)
+
     name, ext = os.path.splitext(filename)
     path = os.path.join(FLAGS.output_dir,name+f'_{idx+1}'+ext)
-    # obj_save.save(path)
+    obj_save.save(path)
     print(f'>>> Detected object #{idx+1} has been saved as {path}')
+
+  with open(os.path.join(FLAGS.output_dir, name+'_coord.txt'), 'w') as f:
+    for line in coord:
+      f.write(str(line) + '\n')
+  f.close()
 
 print(f'[*] {len(IMAGE_PATH)} files to Detection')
 
