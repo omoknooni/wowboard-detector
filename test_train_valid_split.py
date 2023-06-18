@@ -17,7 +17,7 @@ name_set = set(name_list)  # separate filename
 total_count = len(name_set)
 train_count = int(total_count * 0.7)
 test_count = int(total_count * 0.2)
-valid_count = total_count - train_count - test_count    # train:test:valid = 7:2:1 540:153:83
+valid_count = total_count - train_count - test_count    # train:test:valid = 7:2:1 539:152:83 -> 7:1.974:1.078
 
 name_list_shuffled = random.sample(list(name_set), total_count)  # randomize file list
 
